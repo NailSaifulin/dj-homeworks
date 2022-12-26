@@ -13,7 +13,25 @@
   </head>
 
   <body>
-    {% block content %}{% endblock %}
+    {% block content %}
+    <div class="container">
+        <div class="header">
+            <h1><a href="/books">Каталог</a></h1>
+        </div>
+        <div class="row">
+          {% for book in books %}
+            <div class="book col-md-4">
+              <a href="{% url 'book' book.pub_date %}">
+                <h3>{{ book.name }}</h3>
+              </a>
+              <div class="author">Автор: {{ book.author }}</div>
+              <div class="pub_data">Дата публикации: {{ book.pub_date }}</div>
+            </div>
+          {% endfor %}
+        </div>
+    </div>
+
+    {% endblock %}
 
     <!--JavaScript at end of body for optimized loading-->
     <script type="text/javascript" src="{% static "js/bootstrap.js" %}"></script>
