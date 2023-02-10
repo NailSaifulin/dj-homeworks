@@ -24,7 +24,7 @@ class AdvertisementSerializer(serializers.ModelSerializer):
     class Meta:
         model = Advertisement
         fields = ('id', 'title', 'description', 'creator',
-                  'status', 'created_at', )
+                  'status', 'created_at', 'draft')
 
     def create(self, validated_data):
         """Метод для создания"""
@@ -41,7 +41,7 @@ class AdvertisementSerializer(serializers.ModelSerializer):
     def validate(self, data):
         """Метод для валидации. Вызывается при создании и обновлении."""
 
-        if self.context["request"].method in ('POST', 'PATCH', 'PUT'):
+        if self.context["request"].method == 'POST' or data['status'] == 'OPEN':
             countfields = Advertisement.objects.filter(status='OPEN',
                           creator=self.context["request"].user).count()
             if countfields >= 10:

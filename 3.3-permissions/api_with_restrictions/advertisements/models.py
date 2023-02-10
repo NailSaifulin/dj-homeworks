@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from rest_framework.authtoken.admin import User
 
 
 class AdvertisementStatusChoices(models.TextChoices):
@@ -26,5 +27,9 @@ class Advertisement(models.Model):
         auto_now_add=True
     )
     updated_at = models.DateTimeField(
-        auto_now=True
+        auto_now=True)
+    favorite_by = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name='favorites'
     )
+    draft = models.BooleanField(default=False)
